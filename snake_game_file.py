@@ -23,26 +23,29 @@ def snake_game():
     screen.onkey(python.right, "Right")
 
     game_is_on = True
+    buffer = 0.1
     while game_is_on:
         screen.update()
-        time.sleep(0.1)
+        time.sleep(buffer)
         python.move()
 
         # detect collision with food
         if python.head.distance(food) < 15:
             food.refresh()
             python.grow()
-            scoreboard.update_score()
+            scoreboard.increase_score()
 
         # detect collision with walls
         if python.head.xcor() > 290 or python.head.xcor() < -290 or python.head.ycor() > 300 or python.head.ycor() < -290:
             game_is_on = False
-            scoreboard.game_over()
+            scoreboard.reset()
+            # scoreboard.game_over()
 
         # detect collision with head
         for segment in python.snake[1:]:
             if python.head.distance(segment) < 10:
                 game_is_on = False
-                scoreboard.game_over()
+                scoreboard.reset()
+                # scoreboard.game_over()
 
     screen.exitonclick()
